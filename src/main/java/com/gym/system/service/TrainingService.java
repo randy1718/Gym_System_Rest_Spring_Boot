@@ -29,7 +29,7 @@ import com.gym.system.repository.TrainerDAO;
 import com.gym.system.repository.TrainingDAO;
 import com.gym.system.repository.TrainingTypeDAO;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional

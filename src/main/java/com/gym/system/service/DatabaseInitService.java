@@ -70,17 +70,20 @@ public class DatabaseInitService {
 
         if (trainerArray != null && trainerArray.isArray()) {
             for (JsonNode node : trainerArray) {
-                Trainer t = mapper.convertValue(node, Trainer.class);
+                Trainer t = new Trainer();
 
-                String specializationName = node.get("specializationName").asText();
+                t.setFirstName(node.get("firstName").asText());
+                t.setLastName(node.get("lastName").asText());
+
+                String specializationName = node.get("specialization").asText();
                 String username = t.getFirstName() + "." + t.getLastName();
 
-                t.setId(null);
                 TrainingType specialization = em.createQuery(
-                        "SELECT tt FROM TrainingType tt WHERE tt.name = :name",
-                        TrainingType.class)
+                                "SELECT tt FROM TrainingType tt WHERE tt.name = :name",
+                                TrainingType.class)
                         .setParameter("name", specializationName)
                         .getSingleResult();
+
                 t.setSpecialization(specialization);
                 t.setUsername(usernameDuplicates.generateUniqueUsername(username));
                 t.setPassword(PasswordGenerator.generate());
