@@ -3,6 +3,8 @@ package com.gym.system.repository;
 import java.util.List;
 import java.util.Optional;
 
+import com.gym.system.monitoring.metrics.CountTraineesMetric;
+import com.gym.system.monitoring.metrics.CountTrainersMetric;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -20,16 +22,19 @@ public class TrainerDAO {
     @PersistenceContext
     private EntityManager em;
 
+    private final CountTrainersMetric countTrainersMetric;
+
     private static final Logger logger = LoggerFactory.getLogger(TrainerDAO.class);
 
-    @Autowired
-    public TrainerDAO() {
+    public TrainerDAO(CountTrainersMetric countTrainersMetric) {
+        this.countTrainersMetric = countTrainersMetric;
     }
 
     public void save(Trainer trainer){
         logger.debug("Saving trainer in Database {}", trainer.getUsername());
         em.persist(trainer);
         em.flush();
+        countTrainersMetric.increment();
     }
 
     public Trainer update(Trainer trainer){

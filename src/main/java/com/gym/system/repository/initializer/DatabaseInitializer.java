@@ -6,6 +6,7 @@ import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import com.gym.system.service.DatabaseInitService;
 
 @Component
 @PropertySource("classpath:application.properties")
+@Profile({"dev", "local"})
 public class DatabaseInitializer {
     @Value("${storage.data.path}")
     private String storageDataPath;

@@ -21,4 +21,18 @@ public class UserDAO {
 
         return count > 0;
     }
+
+    public long countActiveUsers() {
+        Long trainees = em.createQuery(
+                "SELECT COUNT(t) FROM Trainee t WHERE t.isActive = true",
+                Long.class
+        ).getSingleResult();
+
+        Long trainers = em.createQuery(
+                "SELECT COUNT(t) FROM Trainer t WHERE t.isActive = true",
+                Long.class
+        ).getSingleResult();
+
+        return trainees + trainers;
+    }
 }

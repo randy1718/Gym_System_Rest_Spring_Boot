@@ -1,7 +1,7 @@
 {
   "trainers": [
-    { "firstName": "John", "lastName": "Doe", "specialization": "Cardio" },
-    { "firstName": "Ana", "lastName": "Lopez", "specialization": "Strength" }
+    { "firstName": "John", "lastName": "Doe", "specializationName": "Cardio" },
+    { "firstName": "Ana", "lastName": "Lopez", "specializationName": "Strength" }
   ],
   "trainees": [
     { "firstName": "Mary", "lastName": "Diaz", "address": "Street 123" },

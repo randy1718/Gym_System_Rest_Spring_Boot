@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
+import com.gym.system.monitoring.metrics.CountTrainingsMetric;
 import org.springframework.stereotype.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,15 +25,19 @@ public class TrainingDAO {
     @PersistenceContext
     private EntityManager em;
 
+    private final CountTrainingsMetric countTrainingsMetric;
+
     private static final Logger logger = LoggerFactory.getLogger(TrainingDAO.class);
 
-    public TrainingDAO() {
+    public TrainingDAO(CountTrainingsMetric countTrainingsMetric) {
+        this.countTrainingsMetric = countTrainingsMetric;
     }
 
     public void save(Training training) {
         logger.debug("Saving training in Database {}", training.getTrainingName());
         em.persist(training);
         em.flush();
+        countTrainingsMetric.increment();
     }
 
     public void delete(String id) {

@@ -1,5 +1,6 @@
 package com.gym.system.repository;
 
+import com.gym.system.monitoring.metrics.CountTraineesMetric;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,15 +20,19 @@ public class TraineeDAO {
     @PersistenceContext
     private EntityManager em;
 
+    private final CountTraineesMetric countTraineesMetric;
+
     private static final Logger logger = LoggerFactory.getLogger(TraineeDAO.class);
 
-    public TraineeDAO() {
+    public TraineeDAO(CountTraineesMetric countTraineesMetric) {
+        this.countTraineesMetric = countTraineesMetric;
     }
 
     public void save(Trainee trainee) {
         logger.debug("Saving trainee in Database {}", trainee.getUsername());
         em.persist(trainee);
         em.flush();
+        countTraineesMetric.increment();
     }
 
     public Trainee update(Trainee trainee) {
